@@ -23,14 +23,14 @@ namespace KatlaSport.Services.HiveManagement
         public string Code { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether a hive is deleted.
-        /// </summary>
-        public bool IsDeleted { get; set; }
-
-        /// <summary>
         /// Gets or sets a store hive address.
         /// </summary>
         public string Address { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether a hive is deleted.
+        /// </summary>
+        public bool IsDeleted { get; set; }
 
         /// <summary>
         /// Gets or sets a timestamp when the hive was updated last time.
