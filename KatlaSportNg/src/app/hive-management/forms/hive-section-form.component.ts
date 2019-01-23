@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HiveSectionService } from '../services/hive-section.service';
 import { HiveSection } from '../models/hive-section';
-import { HiveListItem } from '../models/hive-list-item';
-import { HiveService } from '../services/hive.service';
+import { HiveSectionService } from '../services/hive-section.service';
+import { HiveSectionListItem } from '../models/hive-section-list-item';
 
 @Component({
   selector: 'app-hive-section-form',
@@ -12,26 +11,26 @@ import { HiveService } from '../services/hive.service';
 })
 export class HiveSectionFormComponent implements OnInit {
 
-  hiveSection = new HiveSection(0, "", "", 0, false, "" );
+  hiveSection = new HiveSection(0, "New Hive Section Name", "HSE0", 0, false, "");
   existed = false;
   hiveId: number;
-  hives: HiveListItem[];
+  hiveSections: Array<HiveSectionListItem>;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private hiveSectionService: HiveSectionService,
-    private hiveService: HiveService
   ) { }
 
   ngOnInit() {
-    this.hiveService.getHives().subscribe(h => this.hives = h);
+    this.hiveSectionService.getHiveSections().subscribe(s => this.hiveSections = s);
     this.route.params.subscribe(p => {
       this.hiveId = p['hiveId'];
+      this.hiveSection.storeHiveId = p['hiveId'];
       if (p['id'] === undefined) return;
       this.hiveSectionService.getHiveSection(p['id']).subscribe(s => this.hiveSection = s);
       this.existed = true;
-    });
+    })
   }
 
   navigateToHiveSections() {
@@ -42,16 +41,11 @@ export class HiveSectionFormComponent implements OnInit {
     }
   }
 
-  onCancel() {
-    this.navigateToHiveSections();
-  }
-
   onSubmit() {
     if (this.existed) {
-      this.hiveSectionService.updateHiveSection(this.hiveSection).subscribe(s => this.navigateToHiveSections());
+      this.hiveSectionService.updateHiveSection(this.hiveSection).subscribe(c => this.navigateToHiveSections());
     } else {
-      this.hiveSection.storeHiveId = this.hiveId;
-      this.hiveSectionService.addHiveSection(this.hiveSection).subscribe(s => this.navigateToHiveSections());
+      this.hiveSectionService.addHiveSection(this.hiveSection).subscribe(c => this.navigateToHiveSections());
     }
   }
 

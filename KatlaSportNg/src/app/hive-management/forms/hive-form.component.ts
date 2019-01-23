@@ -10,7 +10,7 @@ import { Hive } from '../models/hive';
 })
 export class HiveFormComponent implements OnInit {
 
-  hive = new Hive(0, "", "", "", false, "");
+  hive = new Hive(0, "New Hive Name", "HIVE0", "New Hive Address", false, "");
   existed = false;
 
   constructor(
@@ -29,10 +29,6 @@ export class HiveFormComponent implements OnInit {
 
   navigateToHives() {
     this.router.navigate(['/hives']);
-  }
-
-  onCancel() {
-    this.navigateToHives();
   }
   
   onSubmit() {
